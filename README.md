@@ -2,7 +2,7 @@
 
 ## 🚀 Project Structure
 
-Inside of your Astro project, you'll see the following folders and files:
+Inside of this Astro project, you'll see the following folders and files:
 
 ```
 ├── public
@@ -35,7 +35,6 @@ Inside of your Astro project, you'll see the following folders and files:
 ├── package.json
 └── tsconfig.json
 ```
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
 
 ## 🧞 Commands
 

@@ -1,0 +1,31 @@
+---
+import Spacer from "@/components/Spacer.vue";
+import Layout from "@/layouts/Layout.astro";
+import { House, LoaderCircle } from "@lucide/astro";
+---
+
+<Layout title="Home - CEC Frontend Challenge">
+  <section
+    class="bg-gradient-to-br from-primary via-primary to-secondary text-white h-screen grid place-items-center"
+  >
+    <div class="py-20 main-container text-center">
+      <House class="size-12 mx-auto" />
+      <Spacer class="h-2" />
+      <h2 class="text-3xl md:text-4xl font-semibold">Home Page</h2>
+      <Spacer class="h-3 md:h-4" />
+      <p class="text-lg md:text-xl">CEC's Frontend Challenge</p>
+      <Spacer class="h-3 md:h-4" />
+      <LoaderCircle
+        class="size-6 animate-spin text-white mx-auto"
+        stroke-width={2}
+      />
+      <p class="animate-pulse text-sm">Redirecting to Products Page ...</p>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  setTimeout(() => {
+    window.location.href = "/products";
+  }, 1000);
+</script>

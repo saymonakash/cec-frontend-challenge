@@ -1,10 +1,10 @@
 <template>
-  <div class="md:sticky top-6 space-y-6">
-    <div class="relative">
+  <div class="md:sticky top-6">
+    <div class="relative w-full">
       <input
         type="text"
         placeholder="Search for products..."
-        class="w-full max-w-md px-8 py-2 rounded-lg border border-line shadow-sm bg-white focus:border-primary outline-none peer transition-colors"
+        class="w-full px-8 py-2 rounded-lg border border-line shadow-sm bg-white focus:border-primary outline-none peer transition-colors"
         v-model="searchQuery"
       />
       <Search
@@ -16,13 +16,15 @@
         @click="searchQuery = ''"
       />
     </div>
+    <Spacer class="h-4 md:h-6" />
     <div
-      class="rounded-xl overflow-hidden border border-line shadow-sm p-4 lg:p-6 space-y-4 max-h-max"
+      class="rounded-xl overflow-hidden border border-line shadow-sm p-4 lg:p-6 max-h-max"
     >
       <div class="flex items-center gap-2.5">
         <Tag class="size-5" />
         <h3 class="font-medium text-dark text-lg lg:text-xl">Categories</h3>
       </div>
+      <Spacer class="h-4" />
       <ul class="space-y-1 lg:space-y-2">
         <li v-for="category in categories" :key="category.name">
           <button
@@ -56,6 +58,7 @@
 <script lang="ts" setup>
 import { Tag, Search, XCircle } from "lucide-vue-next";
 import { ref, watch } from "vue";
+import Spacer from "@/components/Spacer.vue";
 
 interface Props {
   allProductLength?: number;
@@ -66,7 +69,7 @@ defineProps<Props>();
 
 const activeCategory = ref("All Products");
 
-const emit = defineEmits(["searchQuery"]);
+const emit = defineEmits(["searchQuery", "categorySelected"]);
 const searchQuery = ref("");
 
 watch(

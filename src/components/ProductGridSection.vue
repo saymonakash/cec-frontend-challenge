@@ -3,15 +3,13 @@
     v-if="products"
     class="main-container py-12 grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-6"
   >
-    <div class="space-y-4">
-      <CategoriesSidebar
-        :allProductLength="products.length"
-        :categories="uniqueCategories"
-        @categorySelected="activeCategory = $event"
-        @searchQuery="searchQuery = $event"
-      />
-    </div>
-    <div class="md:col-span-2 xl:col-span-3 space-y-6">
+    <CategoriesSidebar
+      :allProductLength="products.length"
+      :categories="uniqueCategories"
+      @categorySelected="activeCategory = $event"
+      @searchQuery="searchQuery = $event"
+    />
+    <div class="md:col-span-2 xl:col-span-3">
       <div v-if="loading" class="flex items-center justify-center py-12">
         <div class="text-center">
           <div
@@ -35,6 +33,7 @@
             </a>
           </span>
         </div>
+        <Spacer class="h-6" />
         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           <ProductCard
             v-for="(product, index) in displayedProducts"
@@ -42,6 +41,7 @@
             :product="product"
           />
         </div>
+        <Spacer class="h-6" />
         <Pagination
           v-if="totalPages > 1"
           :totalPages="totalPages"
@@ -59,6 +59,7 @@ import type { Product } from "@/types";
 import CategoriesSidebar from "@/components/CategoriesSidebar.vue";
 import ProductCard from "@/components/ProductCard.vue";
 import Pagination from "@/components/Pagination.vue";
+import Spacer from "@/components/Spacer.vue";
 
 const products = ref<Product[]>([]);
 const searchQuery = ref("");

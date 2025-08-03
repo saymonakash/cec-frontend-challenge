@@ -27,7 +27,7 @@
       <p class="text-sm font-semibold group-hover:text-secondary duration-300">
         {{ product.title }}
       </p>
-      <div class="space-y-1">
+      <div>
         <div class="flex items-center gap-2">
           <div class="flex items-center">
             <Star
@@ -42,6 +42,7 @@
           </div>
           <span class="text-xs text-text">({{ product.rating.count }})</span>
         </div>
+        <Spacer class="h-1" />
         <div class="flex items-center gap-4 justify-between">
           <h4 class="text-xl md:text-2xl font-bold">${{ product.price }}</h4>
           <button class="primary-btn">
@@ -56,6 +57,7 @@
 <script lang="ts" setup>
 import { Star, ShoppingCart } from "lucide-vue-next";
 import type { Product } from "@/types";
+import Spacer from "@/components/Spacer.vue";
 
 interface Props {
   product?: Product;

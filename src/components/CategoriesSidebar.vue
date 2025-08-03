@@ -61,7 +61,7 @@ import { ref, watch } from "vue";
 import Spacer from "@/components/Spacer.vue";
 
 interface Props {
-  allProductLength?: number;
+  allProductsLength?: number;
   categories?: { name: string; productsLength: number }[];
 }
 

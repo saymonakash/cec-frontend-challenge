@@ -1,11 +1,12 @@
 ---
+import { Image } from "astro:assets";
+import { ChevronLeft, Heart, Share, ShoppingCart, Star } from "@lucide/astro";
+import formatSlug from "@/utils/formateSlug";
+import type { Product } from "@/types";
+
 import ProductDetailsCard from "@/components/ProductDetailsCard.astro";
 import Spacer from "@/components/Spacer.vue";
 import Layout from "@/layouts/Layout.astro";
-import type { Product } from "@/types";
-import formatSlug from "@/utils/formateSlug";
-import { ChevronLeft, Heart, Share, ShoppingCart, Star } from "@lucide/astro";
-import { Image } from "astro:assets";
 
 export async function getStaticPaths() {
   const products = await fetch("https://fakestoreapi.com/products").then(
@@ -45,7 +46,6 @@ const product: Product = await fetch("https://fakestoreapi.com/products").then(
           class="size-full object-contain max-w-100 mx-auto group-hover:scale-105 duration-300"
           height={800}
           width={500}
-          loading="lazy"
         />
       </div>
       <div class="md:col-span-3">

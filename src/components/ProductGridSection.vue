@@ -4,7 +4,7 @@
     class="main-container py-12 grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-6"
   >
     <CategoriesSidebar
-      :allProductLength="products.length"
+      :allProductsLength="products.length"
       :categories="uniqueCategories"
       @categorySelected="activeCategory = $event"
       @searchQuery="searchQuery = $event"
@@ -63,6 +63,7 @@ import Spacer from "@/components/Spacer.vue";
 
 const products = ref<Product[]>([]);
 const searchQuery = ref("");
+
 const showPerPage = ref(9);
 const currentPage = ref(1);
 const productsLength = ref(0);

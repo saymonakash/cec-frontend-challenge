@@ -9,6 +9,7 @@
     </button>
     <button
       v-for="item in totalPages"
+      :key="item"
       @click="setCurrentPage(item)"
       class="secondary-btn"
       :class="

@@ -42,7 +42,7 @@
           </div>
           <span class="text-xs text-text">({{ product.rating.count }})</span>
         </div>
-        <Spacer class="h-1" />
+        <Spacer class="h-2" />
         <div class="flex items-center gap-4 justify-between">
           <h4 class="text-xl md:text-2xl font-bold">${{ product.price }}</h4>
           <button class="primary-btn">

@@ -3,12 +3,14 @@
     v-if="products"
     class="main-container py-12 grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-6"
   >
-    <CategoriesSidebar
-      :allProductsLength="products.length"
-      :categories="uniqueCategories"
-      @categorySelected="activeCategory = $event"
-      @searchQuery="searchQuery = $event"
-    />
+    <div>
+      <CategoriesSidebar
+        :allProductsLength="products.length"
+        :categories="uniqueCategories"
+        @categorySelected="activeCategory = $event"
+        @searchQuery="searchQuery = $event"
+      />
+    </div>
     <div class="md:col-span-2 xl:col-span-3">
       <div v-if="loading" class="flex items-center justify-center py-12">
         <div class="text-center">

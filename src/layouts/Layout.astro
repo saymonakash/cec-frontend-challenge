@@ -4,6 +4,7 @@ import "@/styles/tailwind.css";
 let {
   title = "CEC's Frontend Challenge",
   description = "CEC's Frontend Challenge",
+  image = "",
 } = Astro.props;
 ---
 
@@ -16,6 +17,8 @@ let {
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta property="og:image" content={image} />
+    <meta property="og:type" content="website" />
   </head>
   <body>
     <main class="min-h-screen">

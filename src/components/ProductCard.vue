@@ -2,7 +2,7 @@
   <a
     v-if="product"
     class="rounded-xl border border-line shadow-sm group cursor-pointer hover:shadow-lg hover:-translate-y-1 duration-500 flex flex-col justify-between"
-    :href="`/product/${product.id}`"
+    :href="`/product/${formatSlug(product.title)}`"
   >
     <div
       class="h-[192px] w-full bg-background/20 overflow-hidden p-4 md:p-6 relative"
@@ -58,6 +58,7 @@
 import { Star, ShoppingCart } from "lucide-vue-next";
 import type { Product } from "@/types";
 import Spacer from "@/components/Spacer.vue";
+import formatSlug from "@/utils/formateSlug";
 
 interface Props {
   product?: Product;

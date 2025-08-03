@@ -1,5 +1,10 @@
 ---
 import Spacer from "@/components/Spacer.vue";
+import type { Product } from "@/types";
+type Props = {
+  product: Product;
+};
+const { product }: Props = Astro.props;
 ---
 
 <div class="rounded-xl overflow-hidden shadow-sm border border-line p-4 md:p-6">
@@ -7,12 +12,25 @@ import Spacer from "@/components/Spacer.vue";
   <Spacer class="h-4 md:h-6" />
   <ul class="space-y-3">
     <li class="flex items-center justify-between">
-      <span class="text-text">Brand:</span>
-      <span class="text-dark text-right font-medium">Men' Cloth</span>
+      <span class="text-text">Category:</span>
+      <span class="text-dark text-right font-medium capitalize"
+        >{product.category}</span
+      >
     </li>
     <li class="flex items-center justify-between">
-      <span class="text-text">Brand:</span>
-      <span class="text-dark text-right font-medium">Men' Cloth</span>
+      <span class="text-text">Rating:</span>
+      <span class="text-dark text-right font-medium">{product.rating.rate}</span
+      >
+    </li>
+    <li class="flex items-center justify-between">
+      <span class="text-text">Reviews: </span>
+      <span class="text-dark text-right font-medium"
+        >{product.rating.count}</span
+      >
+    </li>
+    <li class="flex items-center justify-between">
+      <span class="text-text">Product ID: </span>
+      <span class="text-dark text-right font-medium">#{product.id}</span>
     </li>
   </ul>
 </div>

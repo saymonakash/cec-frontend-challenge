@@ -1,0 +1,107 @@
+---
+import ProductDetailsCard from "@/components/ProductDetailsCard.astro";
+import Spacer from "@/components/Spacer.astro";
+import Layout from "@/layouts/Layout.astro";
+import {
+  ChevronLeft,
+  Heart,
+  House,
+  Share,
+  ShoppingCart,
+  Star,
+} from "@lucide/astro";
+import { Image } from "astro:assets";
+
+export function getStaticPaths() {
+  return [{ params: { slug: "1" } }];
+}
+let rating = 3;
+---
+
+<Layout title="Product Details - CEC Frontend Challenge">
+  <section class="main-container py-12">
+    <div class="flex items-center gap-4">
+      <a href="/products" class="secondary-btn">
+        <ChevronLeft class="w-5" /> Back to Products</a
+      >
+      <span class="text-text">/{Astro.params.slug}</span>
+    </div>
+    <Spacer class="h-6" />
+    <div class="grid md:grid-cols-5 grid-cols-1 gap-6 lg:gap-16">
+      <div
+        class="bg-background/10 rounded-xl overflow-hidden shadow-sm border border-line p-6 group md:col-span-2 md:max-h-[calc(100svh-170px)] min-h-[400px] md:sticky top-20"
+      >
+        <Image
+          src="https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg"
+          alt="Product Image"
+          class="size-full object-contain max-w-100 mx-auto group-hover:scale-105 duration-300"
+          height={400}
+          width={400}
+          loading="lazy"
+        />
+      </div>
+      <div class="md:col-span-3">
+        <h1 class="text-3xl md:text-4xl font-semibold max-w-100 md:max-w-150">
+          Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops
+        </h1>
+        <Spacer class="h-4 md:h-6" />
+        <div class="flex items-center gap-2">
+          <div class="flex items-center">
+            {
+              Array.from({ length: 5 }, (_, index) => (
+                <Star
+                  fill="currentColor"
+                  stroke-width={0}
+                  class={`size-4 md:size-6 ${index < rating ? "text-secondary" : "text-background"}`}
+                />
+              ))
+            }
+          </div>
+          <span class="lg:text-lg text-text">(120)</span>
+        </div>
+        <Spacer class="h-4 md:h-6" />
+        <h2 class="text-2xl md:text-3xl font-bold">$109.95</h2>
+        <Spacer class="h-4 md:h-6" />
+        <div
+          class="rounded-xl overflow-hidden shadow-sm border border-line p-4 md:p-6"
+        >
+          <h3 class="text-xl md:text-2xl font-semibold">Product Description</h3>
+          <Spacer class="h-2 md:h-4" />
+          <p class="text-text text-sm md:text-base">
+            Your perfect pack for everyday use and walks in the forest. Stash
+            your laptop (up to 15 inches) in the padded sleeve, your everyday
+          </p>
+        </div>
+        <Spacer class="h-2 md:h-4" />
+        <div class="grid grid-cols-2 gap-4">
+          <button class="primary-btn col-span-full md:py-4 text-xl md:gap-4">
+            <ShoppingCart class="size-4 md:size-6" /> Add to Cart
+          </button>
+          <button class="secondary-btn md:py-3">
+            <Heart class="size-3 md:size-5" /> Add to Favorites
+          </button>
+          <button id="shareBtn" class="secondary-btn md:py-3">
+            <Share class="size-3 md:size-5" /> Share
+          </button>
+        </div>
+        <Spacer class="h-4 md:h-6" />
+        <ProductDetailsCard />
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script is:inline>
+  const shareBtn = document.getElementById("shareBtn");
+  if (shareBtn) {
+    shareBtn.addEventListener("click", () => {
+      const url = window.location.href;
+      navigator
+        .share({
+          title: document.title,
+          url: url,
+        })
+        .catch(() => {});
+    });
+  }
+</script>

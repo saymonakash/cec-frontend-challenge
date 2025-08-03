@@ -1,0 +1,10 @@
+---
+import GlobalHeroSection from "@/components/GlobalHeroSection.astro";
+import ProductGridSection from "@/components/ProductGridSection.vue";
+import Layout from "@/layouts/Layout.astro";
+---
+
+<Layout title="Products - CEC Frontend Challenge">
+  <GlobalHeroSection />
+  <ProductGridSection client:only />
+</Layout>

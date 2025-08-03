@@ -4,21 +4,36 @@
 
 Inside of your Astro project, you'll see the following folders and files:
 
-```text
 /
-├── public/
-│   └── favicon.svg
+├── public
 ├── src
 │   ├── assets
-│   │   └── astro.svg
+│   │   ├── astro.svg
+│   │   └── background.svg
 │   ├── components
-│   │   └── Welcome.astro
+│   │   ├── CategoriesSidebar.vue
+│   │   ├── GlobalHeroSection.astro
+│   │   ├── Pagination.vue
+│   │   ├── ProductCard.vue
+│   │   ├── ProductDetailsCard.astro
+│   │   ├── ProductGridSection.vue
+│   │   └── Spacer.vue
 │   ├── layouts
 │   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
-```
+│   ├── pages
+│   │   ├── product
+│   │   │   └── [...slug].astro
+│   │   ├── index.astro
+│   │   └── products.astro
+│   ├── styles
+│   │   └── tailwind.css
+│   ├── types
+│   │   └── index.ts
+│   └── utils
+│       └── formateSlug.ts
+├── astro.config.mjs
+├── package.json
+└── tsconfig.json
 
 To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
 

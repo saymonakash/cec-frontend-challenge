@@ -28,7 +28,10 @@ const product: Product = await fetch("https://fakestoreapi.com/products").then(
 );
 ---
 
-<Layout title="Product Details - CEC Frontend Challenge">
+<Layout
+  title={`${product.title} - CEC Frontend Challenge`}
+  description={product.description}
+>
   <section class="main-container py-12">
     <div class="flex items-center gap-4">
       <a href="/products" class="secondary-btn">

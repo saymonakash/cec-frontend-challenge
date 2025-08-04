@@ -2,6 +2,7 @@
 import Logo from "@/components/Logo.vue";
 import Spacer from "@/components/Spacer.vue";
 import { Facebook, InstagramIcon, Linkedin, Youtube } from "@lucide/astro";
+import { $products } from "@/store/store";
 
 const socialLinks = [
   {
@@ -35,7 +36,6 @@ const quickLinks = [
 
 const pathName = Astro.url.pathname;
 
-import { $products } from "@/store/store";
 const uniqueCategories: {
   name: string;
   href: string;

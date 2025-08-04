@@ -1,5 +1,5 @@
 <template>
-  <div class="md:sticky top-6">
+  <div class="md:sticky top-20">
     <div class="relative w-full">
       <input
         type="text"
@@ -29,10 +29,7 @@
         <li v-for="category in categories" :key="category.name">
           <button
             type="button"
-            @click="
-              (activeCategory = category.name),
-                $emit('categorySelected', category.name)
-            "
+            @click="handleCategorySelect(category.name)"
             class="flex items-center justify-between gap-2 hover:bg-background transition-colors duration-300 px-3 lg:px-4 py-2 rounded-lg group w-full cursor-pointer"
             :class="{
               '!bg-primary text-white': activeCategory === category.name,
@@ -63,11 +60,19 @@ import Spacer from "@/components/Spacer.vue";
 interface Props {
   allProductsLength?: number;
   categories?: { name: string; productsLength: number }[];
+  activeCategory?: string;
 }
 
-defineProps<Props>();
+const props = defineProps<Props>();
 
-const activeCategory = ref("All Products");
+const activeCategory = ref();
+watch(
+  () => props.activeCategory,
+  (newVal) => {
+    activeCategory.value = newVal;
+  },
+  { immediate: true }
+);
 
 const emit = defineEmits(["searchQuery", "categorySelected"]);
 const searchQuery = ref("");
@@ -79,4 +84,14 @@ watch(
   },
   { immediate: true }
 );
+
+function handleCategorySelect(category: string) {
+  activeCategory.value = category;
+  emit("categorySelected", category);
+  window.history.replaceState(
+    {},
+    "",
+    category === "All Products" ? "/products" : `/products?category=${category}`
+  );
+}
 </script>

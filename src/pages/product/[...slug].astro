@@ -1,31 +1,29 @@
 ---
 import { Image } from "astro:assets";
-import { ChevronLeft, Heart, Share, ShoppingCart, Star } from "@lucide/astro";
+import { ChevronLeft, Star } from "@lucide/astro";
 import formatSlug from "@/utils/formateSlug";
 import type { Product } from "@/types";
+import { $products } from "@/store/store";
 
 import ProductDetailsCard from "@/components/ProductDetailsCard.astro";
 import Spacer from "@/components/Spacer.vue";
 import Layout from "@/layouts/Layout.astro";
+import ProductDetailsButtons from "@/components/ProductDetailsButtons.vue";
 
 export async function getStaticPaths() {
-  const products = await fetch("https://fakestoreapi.com/products").then(
-    (res) => res.json()
-  );
-  return products.map((product: Product) => ({
+  return $products.get().map((product: Product) => ({
     params: { slug: formatSlug(product.title) },
   }));
 }
 
 const { slug } = Astro.params;
-const product: Product = await fetch("https://fakestoreapi.com/products").then(
-  (res) =>
-    res
-      .json()
-      .then((products) =>
-        products.find((product: Product) => formatSlug(product.title) === slug)
-      )
-);
+const product = $products
+  .get()
+  .find((product: Product) => formatSlug(product.title) === slug);
+
+if (!product) {
+  throw new Error(`Product not found for slug: ${slug}`);
+}
 ---
 
 <Layout
@@ -84,35 +82,10 @@ const product: Product = await fetch("https://fakestoreapi.com/products").then(
           </p>
         </div>
         <Spacer class="h-4" />
-        <div class="grid grid-cols-2 gap-4">
-          <button class="primary-btn col-span-full md:py-4 text-xl md:gap-4">
-            <ShoppingCart class="size-4 md:size-6" /> Add to Cart
-          </button>
-          <button class="secondary-btn md:py-3">
-            <Heart class="size-3 md:size-5 min-w-3" /> Add to Favorites
-          </button>
-          <button id="shareBtn" class="secondary-btn md:py-3">
-            <Share class="size-3 md:size-5 min-w-3" /> Share
-          </button>
-        </div>
+        <ProductDetailsButtons {product} client:load />
         <Spacer class="h-4 md:h-6" />
         <ProductDetailsCard {product} />
       </div>
     </div>
   </section>
 </Layout>
-
-<script is:inline>
-  const shareBtn = document.getElementById("shareBtn");
-  if (shareBtn) {
-    shareBtn.addEventListener("click", () => {
-      const url = window.location.href;
-      navigator
-        .share({
-          title: document.title,
-          url: url,
-        })
-        .catch(() => {});
-    });
-  }
-</script>

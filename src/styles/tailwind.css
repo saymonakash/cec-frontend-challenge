@@ -13,6 +13,9 @@
   body {
     @apply bg-white;
   }
+  html {
+    @apply scroll-smooth;
+  }
 }
 
 @layer utilities {

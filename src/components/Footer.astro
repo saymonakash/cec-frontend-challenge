@@ -1,0 +1,122 @@
+---
+import Logo from "@/components/Logo.vue";
+import Spacer from "@/components/Spacer.vue";
+import { Facebook, InstagramIcon, Linkedin, Youtube } from "@lucide/astro";
+
+const socialLinks = [
+  {
+    name: "Facebook",
+    href: "#",
+    icon: Facebook,
+  },
+  {
+    name: "Instagram",
+    href: "#",
+    icon: InstagramIcon,
+  },
+  {
+    name: "LinkedIn",
+    href: "#",
+    icon: Linkedin,
+  },
+  {
+    name: "Youtube",
+    href: "#",
+    icon: Youtube,
+  },
+];
+
+const quickLinks = [
+  { name: "Home", href: "/" },
+  { name: "Products", href: "/products" },
+  { name: "Privacy Policy", href: "#" },
+  { name: "Terms of Service", href: "#" },
+];
+
+const pathName = Astro.url.pathname;
+
+import { $products } from "@/store/store";
+const uniqueCategories: {
+  name: string;
+  href: string;
+}[] = Array.from(
+  new Map(
+    $products.get().map((product) => [
+      product.category,
+      {
+        name: product.category,
+        href: `/products?category=${product.category}`,
+      },
+    ])
+  ).values()
+);
+---
+
+<footer class="bg-primary text-white">
+  <div class="main-container">
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 py-10 md:y-20"
+    >
+      <div class="col-span-full md:col-span-2">
+        <Logo varient="light" size="large" />
+        <Spacer class="h-4 md:h-6" />
+        <p class="text-sm md:text-base max-w-100">
+          Your premier destination for quality products with an exceptional
+          shopping experience. Discover, explore, and shop with confidence.
+        </p>
+        <Spacer class="h-4 md:h-6" />
+        <div class="flex items-center gap-2">
+          {
+            socialLinks.map((link) => (
+              <a
+                href={link.href}
+                class="size-10 rounded-full bg-white/20 hover:bg-white/10 text-white grid place-items-center duration-300 group"
+              >
+                <link.icon class="size-5 group-hover:scale-105 duration-300" />
+              </a>
+            ))
+          }
+        </div>
+      </div>
+      <ul class="space-y-2">
+        <li class="text-lg md:text-xl font-semibold pb-2">Quick Links</li>
+        {
+          quickLinks.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                class={[
+                  "text-sm md:text-base hover:text-secondary duration-300",
+                  pathName === link.href ? "text-secondary" : "",
+                ].join(" ")}
+              >
+                {link.name}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <ul class="space-y-2">
+        <li class="text-lg md:text-xl font-semibold pb-2">Categories</li>
+        {
+          uniqueCategories.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class={[
+                  "text-sm md:text-base hover:text-secondary duration-300 capitalize",
+                  pathName === item.href ? "text-secondary" : "",
+                ].join(" ")}
+              >
+                {item.name}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+    <div class="py-6 text-center border-t border-white/10">
+      <p>&copy; {new Date().getFullYear()} StoreHub. All rights reserved.</p>
+    </div>
+  </div>
+</footer>

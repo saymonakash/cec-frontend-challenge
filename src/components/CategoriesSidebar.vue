@@ -1,5 +1,5 @@
 <template>
-  <div class="md:sticky top-6">
+  <div class="md:sticky top-20">
     <div class="relative w-full">
       <input
         type="text"

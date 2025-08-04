@@ -1,11 +1,10 @@
 <template>
   <section
-    v-if="products"
     class="main-container py-12 grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-6"
   >
     <div>
       <CategoriesSidebar
-        :allProductsLength="products.length"
+        :allProductsLength="products?.length || 0"
         :categories="uniqueCategories"
         @categorySelected="activeCategory = $event"
         @searchQuery="searchQuery = $event"
@@ -58,14 +57,14 @@
 <script lang="ts" setup>
 import { ref, computed, onMounted, watch } from "vue";
 import { House } from "lucide-vue-next";
-import type { Product } from "@/types";
-import { $products } from "@/store/store";
+import { useStore } from "@nanostores/vue";
+import { $products, fetchProducts as loadProducts } from "@/store/store";
 import CategoriesSidebar from "@/components/CategoriesSidebar.vue";
 import ProductCard from "@/components/ProductCard.vue";
 import Pagination from "@/components/Pagination.vue";
 import Spacer from "@/components/Spacer.vue";
 
-const products = ref<Product[]>([]);
+const products = useStore($products);
 const searchQuery = ref("");
 
 const showPerPage = ref(9);
@@ -80,9 +79,14 @@ const loading = ref(true);
 const activeCategory = ref();
 
 const displayedProducts = computed(() => {
-  let filtered = products.value;
-  filtered = products.value.filter((product) => {
+  if (!products.value || products.value.length === 0) {
+    productsLength.value = 0;
+    return [];
+  }
+
+  let filtered = products.value.filter((product) => {
     const matchesCategory =
+      !activeCategory.value ||
       activeCategory.value === "All Products" ||
       product.category === activeCategory.value;
     const matchesSearch = product.title
@@ -90,6 +94,7 @@ const displayedProducts = computed(() => {
       .includes(searchQuery.value.toLowerCase());
     return matchesCategory && matchesSearch;
   });
+
   productsLength.value = filtered.length;
   return filtered.slice(productShowFrom.value, productShowTo.value);
 });
@@ -103,6 +108,10 @@ const totalPages = computed(() => {
 });
 
 const uniqueCategories = computed(() => {
+  if (!products.value || products.value.length === 0) {
+    return [{ name: "All Products", productsLength: 0 }];
+  }
+
   const categoriesSet = new Set(
     products.value.map((product) => product.category)
   );
@@ -124,10 +133,10 @@ const uniqueCategories = computed(() => {
 const fetchProducts = async () => {
   try {
     loading.value = true;
+    await loadProducts();
     activeCategory.value =
       new URLSearchParams(window.location.search).get("category") ||
       "All Products";
-    products.value = $products.get();
   } catch (err) {
     console.error("Error fetching products:", err);
   } finally {

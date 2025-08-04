@@ -1,15 +1,29 @@
 import type { Product } from "@/types";
 import { atom } from "nanostores";
 
-export const $products = atom<Product[]>(
-  await fetch("https://fakestoreapi.com/products").then((res) => res.json())
-);
+export const $products = atom<Product[]>([]);
+
+export async function fetchProducts() {
+  try {
+    const response = await fetch("https://fakestoreapi.com/products");
+    const products = await response.json();
+    $products.set(products);
+    return products;
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    return [];
+  }
+}
 
 export type CartItem = Product & { quantity: number };
 
 const CART_ITEMS_KEY = "cartItems";
 
 function loadCartItems(): CartItem[] {
+  if (typeof window === "undefined") {
+    return [];
+  }
+
   try {
     const data = localStorage.getItem(CART_ITEMS_KEY);
     return data ? JSON.parse(data) : [];
@@ -21,6 +35,10 @@ function loadCartItems(): CartItem[] {
 export const $cartItems = atom<CartItem[]>(loadCartItems());
 
 $cartItems.subscribe((items) => {
+  if (typeof window === "undefined") {
+    return;
+  }
+
   try {
     localStorage.setItem(CART_ITEMS_KEY, JSON.stringify(items));
   } catch {}

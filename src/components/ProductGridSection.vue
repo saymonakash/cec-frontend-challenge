@@ -124,10 +124,10 @@ const uniqueCategories = computed(() => {
 const fetchProducts = async () => {
   try {
     loading.value = true;
-    products.value = $products.get();
     activeCategory.value =
       new URLSearchParams(window.location.search).get("category") ||
       "All Products";
+    products.value = $products.get();
   } catch (err) {
     console.error("Error fetching products:", err);
   } finally {

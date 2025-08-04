@@ -7,7 +7,24 @@ export const $products = atom<Product[]>(
 
 export type CartItem = Product & { quantity: number };
 
-export const $cartItems = atom<CartItem[]>([]);
+const CART_ITEMS_KEY = "cartItems";
+
+function loadCartItems(): CartItem[] {
+  try {
+    const data = localStorage.getItem(CART_ITEMS_KEY);
+    return data ? JSON.parse(data) : [];
+  } catch {
+    return [];
+  }
+}
+
+export const $cartItems = atom<CartItem[]>(loadCartItems());
+
+$cartItems.subscribe((items) => {
+  try {
+    localStorage.setItem(CART_ITEMS_KEY, JSON.stringify(items));
+  } catch {}
+});
 
 export function addCart(newItem: Product) {
   $cartItems.set(

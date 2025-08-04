@@ -6,18 +6,27 @@ Inside of this Astro project, you'll see the following folders and files:
 
 ```
 ├── public
+│   └── favicon.svg
 ├── src
 │   ├── assets
 │   │   ├── astro.svg
 │   │   └── background.svg
 │   ├── components
+│   │   ├── Cart.vue
 │   │   ├── CategoriesSidebar.vue
+│   │   ├── Footer.astro
 │   │   ├── GlobalHeroSection.astro
+│   │   ├── Header.vue
+│   │   ├── Logo.vue
 │   │   ├── Pagination.vue
+│   │   ├── PaymentSuccessPopup.vue
 │   │   ├── ProductCard.vue
+│   │   ├── ProductDetailsButtons.vue
 │   │   ├── ProductDetailsCard.astro
 │   │   ├── ProductGridSection.vue
 │   │   └── Spacer.vue
+│   ├── composables
+│   │   └── useProductsData.ts
 │   ├── layouts
 │   │   └── Layout.astro
 │   ├── pages
@@ -25,12 +34,15 @@ Inside of this Astro project, you'll see the following folders and files:
 │   │   │   └── [...slug].astro
 │   │   ├── index.astro
 │   │   └── products.astro
+│   ├── store
+│   │   └── store.ts
 │   ├── styles
 │   │   └── tailwind.css
 │   ├── types
 │   │   └── index.ts
 │   └── utils
 │       └── formateSlug.ts
+├── .gitignore
 ├── astro.config.mjs
 ├── package.json
 └── tsconfig.json
@@ -52,8 +64,6 @@ All commands are run from the root of the project, from a terminal:
 ## 👀 Want to learn more?
 
 Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
-
-
 
 # Frontend Challenge
 

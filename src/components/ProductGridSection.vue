@@ -9,6 +9,7 @@
         :categories="uniqueCategories"
         @categorySelected="activeCategory = $event"
         @searchQuery="searchQuery = $event"
+        :activeCategory="activeCategory"
       />
     </div>
     <div class="md:col-span-2 xl:col-span-3">
@@ -27,7 +28,7 @@
             {{ productsLength ? productShowFrom + 1 : productsLength }}-{{
               productsLength > productShowTo ? productShowTo : productsLength
             }}
-            of {{ productsLength }} products
+            of {{ productsLength }} products {{ activeCategory }}
           </p>
           <span class="text-xs text-gray-400">
             <a href="/" class="secondary-btn">
@@ -58,6 +59,7 @@
 import { ref, computed, onMounted, watch } from "vue";
 import { House } from "lucide-vue-next";
 import type { Product } from "@/types";
+import { $products } from "@/store/store";
 import CategoriesSidebar from "@/components/CategoriesSidebar.vue";
 import ProductCard from "@/components/ProductCard.vue";
 import Pagination from "@/components/Pagination.vue";
@@ -75,7 +77,7 @@ const productShowFrom = computed(
 const productShowTo = computed(() => productShowFrom.value + showPerPage.value);
 
 const loading = ref(true);
-const activeCategory = ref("All Products");
+const activeCategory = ref();
 
 const displayedProducts = computed(() => {
   let filtered = products.value;
@@ -122,8 +124,10 @@ const uniqueCategories = computed(() => {
 const fetchProducts = async () => {
   try {
     loading.value = true;
-    const response = await fetch("https://fakestoreapi.com/products/");
-    products.value = await response.json();
+    products.value = $products.get();
+    activeCategory.value =
+      new URLSearchParams(window.location.search).get("category") ||
+      "All Products";
   } catch (err) {
     console.error("Error fetching products:", err);
   } finally {

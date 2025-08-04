@@ -23,9 +23,10 @@
             <ShoppingCart class="size-5" />
           </button>
           <span
+            v-if="cartItemCount > 0"
             class="absolute -top-1 -right-2 bg-secondary text-white text-xs font-semibold rounded-full px-1"
           >
-            10
+            {{ cartItemCount }}
           </span>
         </div>
       </nav>
@@ -33,8 +34,20 @@
   </header>
 </template>
 <script setup lang="ts">
+import { computed } from "vue";
 import { ShoppingCart } from "lucide-vue-next";
 import Logo from "@/components/Logo.vue";
+import { $cartItems } from "@/store/store";
+import { useStore } from "@nanostores/vue";
+
+const cartItems = useStore($cartItems);
+
+const cartItemCount = computed(() =>
+  cartItems.value.reduce(
+    (sum: number, item: { quantity: number }) => sum + item.quantity,
+    0
+  )
+);
 
 const navItems = [
   { name: "Home", href: "/" },

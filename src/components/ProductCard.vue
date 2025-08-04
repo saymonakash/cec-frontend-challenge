@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="product"
-    class="rounded-xl border border-line shadow-sm cursor-pointer hover:shadow-lg hover:-translate-y-1 duration-500 h-full"
+    class="rounded-xl border border-line shadow-sm cursor-pointer hover:shadow-lg hover:-translate-y-1 duration-500 h-full flex flex-col"
   >
     <div
       class="h-[192px] w-full bg-background/20 overflow-hidden p-4 md:p-6 relative"
@@ -21,11 +21,11 @@
       </span>
     </div>
     <div
-      class="p-4 flex flex-col gap-6 justify-between group-hover:bg-background/20 transition-colors duration-300"
+      class="p-4 flex-1 flex flex-col h-full gap-6 justify-between group-hover:bg-background/20 transition-colors duration-300"
     >
       <a
         :href="`/product/${formatSlug(product.title)}`"
-        class="text-sm font-semibold hover:text-secondary duration-300"
+        class="text-sm font-semibold hover:text-secondary duration-300 line-clamp-2"
       >
         {{ product.title }}
       </a>
@@ -47,7 +47,10 @@
         <Spacer class="h-2" />
         <div class="flex flex-wrap items-center gap-4 justify-between">
           <h4 class="text-xl md:text-2xl font-bold">${{ product.price }}</h4>
-          <button @click="" class="primary-btn">
+          <button
+            @click="() => product && addCart(product)"
+            class="primary-btn relative group"
+          >
             <ShoppingCart class="size-4" /> Add to Cart
           </button>
         </div>
@@ -61,7 +64,8 @@ import { Star, ShoppingCart } from "lucide-vue-next";
 import type { Product } from "@/types";
 import Spacer from "@/components/Spacer.vue";
 import formatSlug from "@/utils/formateSlug";
-import { cartItems } from "@/store/store";
+import { addCart } from "@/store/store";
+
 interface Props {
   product?: Product;
 }

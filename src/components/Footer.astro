@@ -1,7 +1,6 @@
 ---
 import Logo from "@/components/Logo.vue";
 import Spacer from "@/components/Spacer.vue";
-import type { Product } from "@/types";
 import { Facebook, InstagramIcon, Linkedin, Youtube } from "@lucide/astro";
 
 const socialLinks = [
@@ -36,16 +35,13 @@ const quickLinks = [
 
 const pathName = Astro.url.pathname;
 
-const products: Product[] = await fetch(
-  "https://fakestoreapi.com/products/"
-).then((res) => res.json());
-
+import { $products } from "@/store/store";
 const uniqueCategories: {
   name: string;
   href: string;
 }[] = Array.from(
   new Map(
-    products.map((product) => [
+    $products.get().map((product) => [
       product.category,
       {
         name: product.category,

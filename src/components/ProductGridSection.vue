@@ -57,14 +57,14 @@
 <script lang="ts" setup>
 import { ref, computed, onMounted, watch } from "vue";
 import { House } from "lucide-vue-next";
-import { useStore } from "@nanostores/vue";
-import { $products, fetchProducts as loadProducts } from "@/store/store";
+import { useProductsData } from "@/composables/useProductsData";
 import CategoriesSidebar from "@/components/CategoriesSidebar.vue";
 import ProductCard from "@/components/ProductCard.vue";
 import Pagination from "@/components/Pagination.vue";
 import Spacer from "@/components/Spacer.vue";
+import type { Product } from "@/types";
 
-const products = useStore($products);
+const products = ref<Product[]>([]);
 const searchQuery = ref("");
 
 const showPerPage = ref(9);
@@ -130,10 +130,10 @@ const uniqueCategories = computed(() => {
   ];
 });
 
-const fetchProducts = async () => {
+const loadData = async () => {
   try {
     loading.value = true;
-    await loadProducts();
+    products.value = await useProductsData();
     activeCategory.value =
       new URLSearchParams(window.location.search).get("category") ||
       "All Products";
@@ -145,6 +145,6 @@ const fetchProducts = async () => {
 };
 
 onMounted(() => {
-  fetchProducts();
+  loadData();
 });
 </script>

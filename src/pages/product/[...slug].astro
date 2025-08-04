@@ -3,23 +3,25 @@ import { Image } from "astro:assets";
 import { ChevronLeft, Star } from "@lucide/astro";
 import formatSlug from "@/utils/formateSlug";
 import type { Product } from "@/types";
-import { $products } from "@/store/store";
+import { useProductsData } from "@/composables/useProductsData";
 
 import ProductDetailsCard from "@/components/ProductDetailsCard.astro";
 import Spacer from "@/components/Spacer.vue";
 import Layout from "@/layouts/Layout.astro";
 import ProductDetailsButtons from "@/components/ProductDetailsButtons.vue";
 
+const products = await useProductsData();
 export async function getStaticPaths() {
-  return $products.get().map((product: Product) => ({
+  const products = await useProductsData();
+  return products.map((product: Product) => ({
     params: { slug: formatSlug(product.title) },
   }));
 }
 
 const { slug } = Astro.params;
-const product = $products
-  .get()
-  .find((product: Product) => formatSlug(product.title) === slug);
+const product = products.find(
+  (product: Product) => formatSlug(product.title) === slug
+);
 
 if (!product) {
   throw new Error(`Product not found for slug: ${slug}`);

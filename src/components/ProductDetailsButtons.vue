@@ -21,14 +21,14 @@ function handleShare() {
 
 <template>
   <div class="grid grid-cols-2 gap-4">
-    <button @click="handleShare" class="secondary-btn md:py-4">
-      <Share class="size-3 md:size-5 min-w-3" /> Share
-    </button>
     <button
       @click="() => product && addCart(product)"
       class="primary-btn md:py-4 text-xl md:gap-4"
     >
       <ShoppingCart class="size-4 md:size-6" /> Add to Cart
+    </button>
+    <button @click="handleShare" class="secondary-btn md:py-4">
+      <Share class="size-3 md:size-5 min-w-3" /> Share
     </button>
   </div>
 </template>

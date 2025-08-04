@@ -14,8 +14,6 @@
     </span>
   </div>
   <Transition
-    enter-active-class="transition-all duration-300 ease-in-out"
-    leave-active-class="transition-all duration-300 ease-in-out"
     enter-from-class="translate-x-full"
     enter-to-class="translate-x-0"
     leave-from-class="translate-x-0"
@@ -23,7 +21,7 @@
   >
     <div
       v-if="isCartOpen"
-      class="fixed top-0 right-0 z-50 bg-white shadow-lg px-4 md:px-6 h-svh max-w-[390px] w-full"
+      class="fixed top-0 right-0 z-50 bg-white shadow-lg px-4 md:px-6 h-svh max-w-[390px] w-full transition-all duration-500 ease-in-out"
     >
       <div class="relative h-full flex flex-col justify-between">
         <div class="flex-1 h-full flex flex-col">
@@ -129,6 +127,7 @@
             </strong>
           </div>
           <button
+            @click="checkout"
             :class="[
               'primary-btn w-full py-4 font-bold md:text-lg rounded-lg shadow hover:bg-secondary/90 transition',
               cartItemCount === 0
@@ -145,8 +144,13 @@
 
   <div
     v-if="isCartOpen"
+    @click="isCartOpen = false"
     class="fixed inset-0 bg-primary/10 backdrop-blur"
   ></div>
+  <PaymentSuccessPopup
+    :is-pyament-success="isPyamentSuccess"
+    @isPopupOpen="isPyamentSuccess = $event"
+  />
 </template>
 
 <script setup lang="ts">
@@ -154,6 +158,7 @@ import { computed, ref, watchEffect } from "vue";
 import { ShoppingCart, X, Plus, Minus } from "lucide-vue-next";
 import { $cartItems, addCart, removeFromCart, clearCart } from "@/store/store";
 import { useStore } from "@nanostores/vue";
+import PaymentSuccessPopup from "@/components/PaymentSuccessPopup.vue";
 const isCartOpen = ref(false);
 
 const cartItems = useStore($cartItems);
@@ -174,6 +179,19 @@ watchEffect(() => {
     document.documentElement.style.overflow = "hidden";
   } else {
     document.documentElement.style.overflow = "";
+  }
+});
+
+const isPyamentSuccess = ref(false);
+function checkout() {
+  if (cartItemCount.value > 0) {
+    clearCart();
+    isPyamentSuccess.value = true;
+  }
+}
+watchEffect(() => {
+  if (!isPyamentSuccess.value) {
+    isCartOpen.value = false;
   }
 });
 </script>

@@ -2,7 +2,7 @@
 import Logo from "@/components/Logo.vue";
 import Spacer from "@/components/Spacer.vue";
 import { Facebook, InstagramIcon, Linkedin, Youtube } from "@lucide/astro";
-import { $products } from "@/store/store";
+import { useProductsData } from "@/composables/useProductsData";
 
 const socialLinks = [
   {
@@ -35,13 +35,13 @@ const quickLinks = [
 ];
 
 const pathName = Astro.url.pathname;
-
+const products = await useProductsData();
 const uniqueCategories: {
   name: string;
   href: string;
 }[] = Array.from(
   new Map(
-    $products.get().map((product) => [
+    products.map((product) => [
       product.category,
       {
         name: product.category,

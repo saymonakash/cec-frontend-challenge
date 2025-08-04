@@ -1,20 +1,6 @@
 import type { Product } from "@/types";
 import { atom } from "nanostores";
 
-export const $products = atom<Product[]>([]);
-
-export async function fetchProducts() {
-  try {
-    const response = await fetch("https://fakestoreapi.com/products");
-    const products = await response.json();
-    $products.set(products);
-    return products;
-  } catch (error) {
-    console.error("Error fetching products:", error);
-    return [];
-  }
-}
-
 export type CartItem = Product & { quantity: number };
 
 const CART_ITEMS_KEY = "cartItems";
